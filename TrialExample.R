@@ -12,7 +12,7 @@ dim(matrixCSV)
 #matrixCSV <- matrix(0,10,3)
 #vect <- c("aa","bb","cc")
 #colnames(matrixCSV)<- vect
-
+#checkkndkfjdksf
 conn <- file(fileName,open='r')
 linn <- readLines(conn)
 
