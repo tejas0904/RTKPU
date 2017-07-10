@@ -1,4 +1,5 @@
-fileName = "C:\\Users\\urmil\\Desktop\\Plants.txt"
+#fileName = "C:\\Users\\urmil\\Desktop\\Plants.txt"
+fileName = "C:/Users/Tejas09/Downloads/Plants.txt"
 conn <- file(fileName,open='r')    
 value <- count.fields(conn,sep=',')
 getLineMax <- which.max(value)
@@ -9,21 +10,41 @@ totalLength
 
 matrixCSV <- matrix(0,totalLength,maxLength-1)
 dim(matrixCSV)
-#matrixCSV <- matrix(0,10,3)
-#vect <- c("aa","bb","cc")
-#colnames(matrixCSV)<- vect
 
 conn <- file(fileName,open='r')
 linn <- readLines(conn)
 
-conn <- file(fileName,open='r')
 colnames_vector <- regmatches(linn[getLineMax], regexpr(",", linn[getLineMax]), invert = TRUE)
+
 colnames_vector <- colnames_vector[[1]][2]
 final<-unlist(strsplit(colnames_vector,","))
 length(final)
-
 colnames(matrixCSV)<- final
-k <- arrayInd(2, dim(matrixCSV))
-colnames(matrixCSV)[k[,1]]
-matrixCSV
+ 
+  conn <- file(fileName,open = "r")
+  linn <- readLines(conn)
+  #print(w)
+  
+  # print(length(w)-1)
+  # print(w[2][1])
+  
+  #check the rows
+for(i in 1:totalLength){
+  
+  w<-unlist(strsplit(linn[i],","))
+  #check the columns
+  for(j in 1:69){
+  
+    p <- arrayInd(j, dim(matrixCSV))
+    
+      if(colnames(matrixCSV)[p[,1]] %in% w)
+      {
+        matrixCSV[i,j] <- 1
+      }else{
+        matrixCSV[i,j] <- 0
+      }
+}
+}
+#matrixCSV
+head(matrixCSV, n=5)
 close(conn)
