@@ -25,4 +25,5 @@ length(final)
 colnames(matrixCSV)<- final
 k <- arrayInd(2, dim(matrixCSV))
 colnames(matrixCSV)[k[,1]]
+matrixCSV
 close(conn)
