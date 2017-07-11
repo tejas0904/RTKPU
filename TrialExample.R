@@ -25,8 +25,6 @@ colnames(matrixCSV)<- final
   linn <- readLines(conn)
   #print(w)
   
-  # print(length(w)-1)
-  # print(w[2][1])
   
   #check the rows
 for(i in 1:totalLength){
