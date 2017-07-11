@@ -20,7 +20,6 @@ colnames_vector <- colnames_vector[[1]][2]
 final<-unlist(strsplit(colnames_vector,","))
 length(final)
 colnames(matrixCSV)<- final
- 
   conn <- file(fileName,open = "r")
   linn <- readLines(conn)
   #print(w)
