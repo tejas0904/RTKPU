@@ -1,5 +1,5 @@
-#fileName = "C:\\Users\\urmil\\Desktop\\Plants.txt"
-fileName = "C:/Users/Tejas09/Downloads/Plants.txt"
+#fileName = "/Users/i862354/Desktop/Plants1.txt"
+fileName = "/Users/i862354/Desktop/Plants1.txt"
 conn <- file(fileName,open='r')    
 value <- count.fields(conn,sep=',')
 getLineMax <- which.max(value)
@@ -30,7 +30,7 @@ for(i in 1:totalLength){
   
   w<-unlist(strsplit(linn[i],","))
   #check the columns
-  for(j in 1:69){
+  for(j in 1:maxLength-1){
   
     p <- arrayInd(j, dim(matrixCSV))
     
@@ -42,6 +42,7 @@ for(i in 1:totalLength){
       }
 }
 }
-#matrixCSV
-head(matrixCSV, n=5)
+matrixCSV
+  
+#head(matrixCSV, n=5)
 close(conn)
