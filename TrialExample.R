@@ -24,15 +24,19 @@ colnames(matrixCSV)<- final
   linn <- readLines(conn)
   #print(w)
   
-  
+  start.time <- Sys.time()
   #check the rows
-for(i in 1:totalLength){
+for(i in 1:3){
+  #start.time <- Sys.time()
   
   w<-unlist(strsplit(linn[i],","))
+  
   #check the columns
   for(j in 1:69){
-  
+    
+    end.time <- Sys.time()
     p <- arrayInd(j, dim(matrixCSV))
+    
     
       if(colnames(matrixCSV)[p[,1]] %in% w)
       {
@@ -40,8 +44,13 @@ for(i in 1:totalLength){
       }else{
         matrixCSV[i,j] <- 0
       }
+    
 }
 }
+  
+#  end.time <- Sys.time()
+  time.taken <- end.time - start.time
+  print(time.taken)
 #matrixCSV
-head(matrixCSV, n=5)
+head(matrixCSV, n=10)
 close(conn)
