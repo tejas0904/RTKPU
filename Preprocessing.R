@@ -53,4 +53,6 @@ for(i in 1:3){
   time.taken <- end.time - start.time
   print(time.taken)
   
+head(matrixCSV, n=10)
+
 close(conn)
