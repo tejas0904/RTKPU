@@ -35,6 +35,7 @@ for(i in 1:3){
   for(j in 1:69){
     
     end.time <- Sys.time()
+  
     p <- arrayInd(j, dim(matrixCSV))
     
     
@@ -44,13 +45,12 @@ for(i in 1:3){
       }else{
         matrixCSV[i,j] <- 0
       }
-    
-}
+
 }
   
+}  
 #  end.time <- Sys.time()
   time.taken <- end.time - start.time
   print(time.taken)
-#matrixCSV
-head(matrixCSV, n=10)
+  
 close(conn)
