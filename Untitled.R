@@ -8,9 +8,14 @@
 # 
 # Position(function(t) identical(t, y), x, nomatch = 0) > 0
 final_states <- list()
-final_states[[1]]<-c(2,3)
-final_states[[2]]<-c(5,3,4)
+final_states[[1]]<-c(1)
 
-state <- c(5,3,4)
+state <- 1
 t<-Position(function(x) identical(x, state), final_states, nomatch = 0) 
 t
+
+temp <- 5
+
+final_states[[2]] <- c(final_states[[2]], c(temp))
+print(final_states)
+length(final_states)

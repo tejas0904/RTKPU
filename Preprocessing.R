@@ -24,35 +24,87 @@ colnames(matrixCSV)<- final
   linn <- readLines(conn)
   #print(w)
   
-  start.time <- Sys.time()
   #check the rows
-for(i in 1:3){
+ 
+# Values <- 1:3
+# Function <- function(i){
+#     
+#     #start.time <- Sys.time()
+#     
+#     w<-unlist(strsplit(linn[i],","))
+#     
+#     #check the columns
+#     for(j in 1:69){
+#       
+#       p <- arrayInd(j, dim(matrixCSV))
+#       
+#       
+#       if(colnames(matrixCSV)[p[,1]] %in% w)
+#       {
+#         matrixCSV[i,j] <- 1
+#       }else{
+#         matrixCSV[i,j] <- 0
+#       }
+#       
+#     }
+#     return(matrixCSV)
+#   }  
+
+
+# library(parallel)
+# c1<- makeCluster(2,type = "PSOCK")
+# 
+# clusterExport(c1, list("linn","matrixCSV"))
+# 
+# a<-parLapply(c1,Values,Function)
+
+library(doParallel)
+c1<- makeCluster(3)
+clusterExport(c1, list("linn","matrixCSV"))
+
+library(foreach)
+
+start.time <- Sys.time()
+x<-foreach(i = 1:1)%dopar%{
+  
   #start.time <- Sys.time()
   
   w<-unlist(strsplit(linn[i],","))
   
   #check the columns
-  for(j in 1:69){
+  foreach(j = 1:69)%dopar%{
     
-    end.time <- Sys.time()
-  
     p <- arrayInd(j, dim(matrixCSV))
     
     
-      if(colnames(matrixCSV)[p[,1]] %in% w)
-      {
-        matrixCSV[i,j] <- 1
-      }else{
-        matrixCSV[i,j] <- 0
-      }
-
-}
+    if(colnames(matrixCSV)[p[,1]] %in% w)
+    {
+      matrixCSV[i,j] <- 1
+    }else{
+      matrixCSV[i,j] <- 0
+    }
+    
+  }
+  return(matrixCSV)
   
-}  
+  
+}
+
+
+
+stopCluster(c1)
+  
+#   library(doParallel)
+# detectCores()
+# c1<-makeCluster(3)
+# registerDoParallel(c1)
+
+end.time <- Sys.time()
+
 #  end.time <- Sys.time()
   time.taken <- end.time - start.time
   print(time.taken)
   
-head(matrixCSV, n=10)
-
+head(x[1], n=10)
+#stopCluster(c1)
 close(conn)
