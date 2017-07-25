@@ -1,105 +1,92 @@
-fileName = "C:/Users/Tejas09/Desktop/docs/Concordia/Data Mining/project/processing_trial/trail.txt"
+#fileName = "C:/Users/Tejas09/Desktop/docs/Concordia/Data Mining/project/processing_trial/trail.txt"
+#fileName = "/Users/i862354/Desktop/txt_files/trial.txt"
+fileName = "/Users/i862354/Desktop/trial.txt"
 conn <- file(fileName,open='r')
 linn <- readLines(conn)
-freq_matrix <- matrix(0,5,5)
+totalLength<-length(linn)
+#totalLength <- 15
+conn <- file(fileName,open='r')
+value <- count.fields(conn,sep=' ')
+maxLength <- max(value)
+maxLength
 
-print(linn)
+freq_matrix <- matrix(0,maxLength,maxLength)
 
 start.time <- Sys.time()
-#calculate the frequency matrix
-for(i in 1:6){
 
-  w<-unlist(strsplit(linn[i],","))
-  print(w)
-  for(j in 1:5){
-    for(k in 1:5){
+
+# 
+# library(doParallel)
+# c1<- makeCluster(4)
+# clusterExport(c1, list("linn","totalLength","maxLength","freq_matrix"))
+# getDoParWorkers()
+# library(foreach)
+
+#calculate the frequency matrix
+for(i in 1:totalLength){
+  w<-unlist(strsplit(linn[i]," "))
+  for(j in 1:maxLength){
+    if(w[j]!=0){
+    for(k in 1:maxLength){
       if(w[j]==w[k] && w[j]==1){
         freq_matrix[j,k]<-freq_matrix[j,k]+1
       }
     }
+    }
   }
-
 }
-
 print(freq_matrix)
-
+#write.table(freq_matrix, file="/Users/i862354/Desktop/chehhheheh.csv", row.names=FALSE, col.names=FALSE)
+#write.table(freq_matrix, "/Users/i862354/Desktop/urmil.csv", sep=" ")
+print(1)
+#stopCluster(c1)
 #discritize
-for(i in 1:5){
-  for(j in 1:5){
-    if(freq_matrix[i,j]>1){
+for(i in 1:maxLength){
+  for(j in 1:maxLength){
+    if(freq_matrix[i,j]>4337){
       freq_matrix[i,j] <-1
     }else{
       freq_matrix[i,j] <-0
     }
-    
   }
 }
 
+print(freq_matrix)
+print(2)
 
-
-# p<-1
-# a<-1
-# #find max set
-# max_set <- 0
-# #max_set[a+2] <- 1
-# print(max_set)
-# temp_set <- 0
-# for(i in 1:5){
-#   if(freq_matrix[i,i] == 1 && max_set == 0){
-#     max_set <- i
-#   }else if(freq_matrix[i,i] == 1){
-#     for(j in i-1:1){
-#       if(freq_matrix[i,j] == 1){
-#         temp_set[p+1] <- j
-#       }
-#     }
-#     set_max_set<-unlist(strsplit(max_set,","))
-#     print(set_max_set)
-#     print(temp_set)
-#     for(l in 1:length(set_max_set))
-#     {
-#       if(temp_set%in%set_max_set[l]){
-#         max_set[a] <- i
-#         temp_set<-0
-#       }else{
-#         max_set[a+1] <- ","
-#         max_set[a+1] <- temp_set+j
-#         temp_set<-0
-#       }
-#     }
-#   }
-# }
-
+#finding frequent item sets
 p<-1
-temp_set <- 0
 final_states <- list()
 
-for(i in 1:5){
+for(i in 1:maxLength){
   p<-1
-  temp_set <- 0
+  temp_set<- 0
   if(freq_matrix[i,i] == 1 && length(final_states) == 0){
-    final_states[[1]] <- 1
+    final_states[[1]] <- as.numeric(i) 
   }else if(freq_matrix[i,i] == 1){
     k<-i-1
     for(j in 1:k){
       if(freq_matrix[i,j] == 1){
-        temp_set[p] <- j
+        temp_set[p] <- as.numeric(j)
         p<-p+1
       }
     }
-    #set_max_set<-unlist(strsplit(max_set,","))
-    print(final_states[[1]])
-    print(temp_set)
     for(l in 1:length(final_states))
     {
       t<-Position(function(x) identical(x, temp_set), final_states, nomatch = 0)
       if(t!=0){
-        final_states[[t]] <- c(final_states[[t]], i)
+        final_states[[t]] <- c(final_states[[t]],as.numeric(i))
         break
       }else{
-        final_states[[length(final_states)+1]] <- temp_set
-        final_states[[length(final_states)]] <- c(final_states[[length(final_states)]], i)
-        break
+        if(temp_set != 0)
+          {
+            final_states[[length(final_states)+1]] <- temp_set
+            final_states[[length(final_states)]] <- c(final_states[[length(final_states)]], as.numeric(i))
+            break
+          }else{
+          final_states[[length(final_states)+1]] <- as.numeric(i)
+          break
+          }
       }
     }
   }
@@ -109,11 +96,6 @@ end.time <- Sys.time()
 time.taken <- end.time - start.time
 print(time.taken)
 
-print(freq_matrix)
+#print(freq_matrix)
 print(final_states)
-
-
-
-
-
 
