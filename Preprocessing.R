@@ -11,6 +11,7 @@ totalLength
 matrixCSV <- matrix(0,totalLength,maxLength-1)
 dim(matrixCSV)
 
+
 conn <- file(fileName,open='r')
 linn <- readLines(conn)
 
