@@ -6,7 +6,7 @@ plants <- read.transactions("/Users/i862354/Desktop/Plants.txt",format = "basket
 #iteration for joining phase
 old <- Sys.time()
 old
-itemsets <- apriori(plants, parameter = list(minlen=2,support=0.15, target="frequent itemsets"))
+itemsets <- eclat(plants, parameter = list(minlen=2,support=0.15, target="frequent itemsets"))
 
 inspect(head(sort(itemsets,by="support"),10))
 check<-Sys.time()

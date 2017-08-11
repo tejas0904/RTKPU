@@ -1,29 +1,36 @@
-
-#fileName = "/Users/i862354/Desktop/Plants1.txt"
+# file name to be given as input
 fileName = "/Users/i862354/Desktop/Plants.txt"
 conn <- file(fileName,open='r')
+#separate ecah line by ,
 value <- count.fields(conn,sep=',')
+#get line with max numner of states
 getLineMax <- which.max(value)
 getLineMax
+#find max lengthof that line
 maxLength <- max(value)
-maxLength
+maxLength<-maxLength-1
+#find total number of txs.
 totalLength<-length(value)
 totalLength
 
-matrixCSV <- matrix(0,totalLength,5)
+#create n*m matrix
+matrixCSV <- matrix(0,totalLength,maxLength)
 dim(matrixCSV)
 
 conn <- file(fileName,open='r')
+#read each txs from file
 linn <- readLines(conn)
 
+#get the names of each states
 colnames_vector <- regmatches(linn[getLineMax], regexpr(",", linn[getLineMax]), invert = TRUE)
 
 
 colnames_vector <- colnames_vector[[1]][2]
 colnames_vector
+#store each name in vector
 final<-unlist(strsplit(colnames_vector,","))
-pos<-match("nv",final)
-pos
+
+# Transform each state name into unique number and save it in plants_updated file.
 for(i in 1:totalLength){
   final_text<-c()
   w<-unlist(strsplit(linn[i],","))
@@ -37,15 +44,15 @@ for(i in 1:totalLength){
       final_text<-substr(final_text,1,nchar(final_text)-1)
     }
   }
-  write(final_text,file ="/Users/i862354/Desktop/Plants_Updated.txt",append=TRUE)
+  write(final_text,file ="/Users/i862354/Desktop/Plants_Updated3.txt",append=TRUE)
 }
 
+#Read the transformed file to convert into binary form.
 fileName = "/Users/i862354/Desktop/Plants_Updated.txt"
 conn <- file(fileName,open='r')
 line <- readLines(conn)
-totalLength<-length(line)
-totalLength
-matrixCSV <- matrix(0,totalLength,69)  
+
+matrixCSV <- matrix(0,totalLength,maxLength)  
 #check the rows
 for(i in 1:totalLength){
   
@@ -57,23 +64,4 @@ for(i in 1:totalLength){
 }
 matrixCSV
 write.table(matrixCSV, file="/Users/i862354/Desktop/trial.txt", row.names=FALSE, col.names=FALSE)
-fileName1 = "/Users/i862354/Desktop/Plants1.txt"
-finalMatrix <- matrix(0,5,5)
-colnames(finalMatrix)<- c("a","b","c","d","e")
-rownames(finalMatrix)<- c("a","b","c","d","e")
-conn <- file(fileName1,open='r')  
-txs <- readLines(conn)
-ABCmatrix <- matrix(0,6,5)
-cols
-for(i in 1:6){
-  cols<- regmatches(txs[i], regexpr(",", txs[1]), invert = TRUE)
-  cols_1 <- cols[[1]][2]
-  print(length(cols_1))
-}
-
-close(conn)
-
-finalMatrix
-
-#head(matrixCSV, n=5)
 close(conn)
